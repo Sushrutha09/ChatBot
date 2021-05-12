@@ -1,0 +1,16 @@
+
+Query for finding number of users present in the given range:
+
+(select 'range','Num of Occurence')
+UNION
+(select case when weiavg between 0 and 25 then '0-25'
+            when weiavg between 26 and 50  then '26-50'            
+when weiavg between 51 and 70 then '51-75'            
+else '76-100'            
+end as c_range,           
+ count(*) as num_of            
+from (SELECT (sum(s1.weightage*s1.achievement)/(sum(s1.weightage)*sum(s1.achievement)))*100 as weiavg from goalanddumptransaction s1 group by user_id) as alias  group by c_range
+ INTO OUTFILE 'C:/ProgramData/MySQL/MySQL Server 5.7/Uploads/goalanddumptransaction.csv'
+FIELDS TERMINATED BY ','
+OPTIONALLY ENCLOSED BY '"'
+LINES TERMINATED BY '\r\n');
