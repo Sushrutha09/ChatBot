@@ -1,1 +1,0 @@
- db.users.aggregate([{"$match": { "name": "Rahul" }},{ "$lookup": {"from": "roles","let": { "ar": "$allowedRoles" },"pipeline": [{ "$match": {"$expr": {"$cond": [{ "$eq": [{"$type": "$$ar"},"missing"]},{},{"$in": ["$_id", "$$ar"]}]}}}],"as": "roles"}})
